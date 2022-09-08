@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {createContext, useState, useEffect} from 'react';
-
-export const Authcontext = createContext();
+//named same name
+export const Authcontext = createContext(); //named
 
 export const AuthProvider = ({children}) => {
   const [isLoading, setIsLoding] = useState(false);

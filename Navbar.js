@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from './screens/Home';
 import Fetch from './screens/Api';
 import Newpage from './screens/Newpage';
-import User from './User';
+import User from './screens/User';
 const Tab = createBottomTabNavigator();
 
 export default function Navbar() {

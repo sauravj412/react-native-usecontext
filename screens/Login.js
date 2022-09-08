@@ -18,13 +18,13 @@ import {
   AccessToken,
   GraphRequest,
   GraphRequestManager,
+  Profile,
 } from 'react-native-fbsdk-next';
 import Signup from './Signup';
-import Authcontext from '../Authcontext';
+import {Authcontext} from '../Authcontext'; //named if curly bracs..
 
 const Login = ({navigation}) => {
-  const data = useContext(Authcontext);
-  console.log(data);
+  const {login} = useContext(Authcontext);
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
   const [out, setOut] = useState('');
@@ -37,7 +37,7 @@ const Login = ({navigation}) => {
     offlineAccess: true,
   });
 
-  const SignIn = async () => {
+  const signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -54,16 +54,18 @@ const Login = ({navigation}) => {
       }
     }
   };
-
-  const click = () => {
-    if (user == 'Saurav' && pass == 12345) {
-      setOut('Login Successfully');
-    } else if (user == '' || pass == NaN) {
-      alert('Both Fields Are Mandatory');
-    } else {
-      setOut('Userid or Password Incorrect');
+  const currentProfile = Profile.getCurrentProfile().then(function (
+    currentProfile,
+  ) {
+    if (currentProfile) {
+      console.log(
+        'The current logged user is: ' +
+          currentProfile.name +
+          '. His profile id is: ' +
+          currentProfile.userID,
+      );
     }
-  };
+  });
 
   return (
     <ImageBackground
@@ -75,51 +77,56 @@ const Login = ({navigation}) => {
       </View>
 
       <ScrollView>
-        <LinearGradient
-          colors={['#FF61D2', '#1BFFFF']}
-          start={{x: 0, y: 1}}
-          end={{x: 1, y: 0}}
-          style={styles.gradient1}>
-          <View style={styles.box}>
-            <TextInput
-              id="user"
-              keyboardType="email-address"
-              placeholder="Enter Your Username"
-              style={styles.input}
-              defaultValue={user}
-              onChangeText={x => {
-                setUser(x);
-              }}
-            />
+        <View style={styles.box}>
+          <TextInput
+            id="user"
+            keyboardType="email-address"
+            placeholder="Enter Your Username"
+            style={styles.input}
+            defaultValue={user}
+            onChangeText={x => {
+              setUser(x);
+            }}
+          />
 
-            <TextInput
-              id="pass"
-              keyboardType="phone-pad"
-              placeholder="Enter Your Password"
-              style={styles.input}
-              defaultValue={pass}
-              secureTextEntry={false}
-              maxLength={6}
-              onChangeText={y => {
-                setPass(y);
-              }}
-            />
-          </View>
-        </LinearGradient>
+          <TextInput
+            id="pass"
+            keyboardType="default"
+            placeholder="Enter Your Password"
+            style={styles.input}
+            defaultValue={pass}
+            secureTextEntry={true}
+            onChangeText={y => {
+              setPass(y);
+            }}
+          />
+        </View>
+
         <TouchableOpacity
           style={styles.button}
-          // onPress={() => {
-          //   {
-          //     login();
-          //   }
-          // }}
-        >
+          onPress={() => {
+            {
+              login();
+            }
+          }}>
           <LinearGradient
             colors={['#A906FE', '#695AED', '#30AAEE']}
             style={styles.gradient}>
             <Text>Submit</Text>
           </LinearGradient>
         </TouchableOpacity>
+
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: 'bold',
+              color: 'white',
+              marginVertical: 16,
+            }}>
+            Or Sign In Using ...
+          </Text>
+        </View>
 
         {/* Sign in with google */}
         <View style={styles.googlebtn}>
@@ -128,7 +135,7 @@ const Login = ({navigation}) => {
             size={GoogleSigninButton.Size.Wide}
             color={GoogleSigninButton.Color.Dark}
             onPress={() => {
-              SignIn();
+              signIn();
             }}
           />
           <LoginButton
@@ -224,15 +231,16 @@ const styles = StyleSheet.create({
   },
 
   box: {
-    flex: 3,
+    flex: 2,
     color: 'white',
     marginVertical: 10,
-    paddingVertical: 21,
-    fontSize: 20,
+    // paddingVertical: 22,
+    fontSize: 25,
     fontFamily: 'Gill sans',
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: 'black',
   },
   button: {
     color: '#ffffff',
