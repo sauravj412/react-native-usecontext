@@ -1,10 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {
-  Alert,
-  ImageBackground,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import {ImageBackground, SafeAreaView, TouchableOpacity} from 'react-native';
 import {View, Text, StyleSheet, ScrollView, TextInput} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
@@ -20,6 +15,7 @@ import {
   GraphRequestManager,
   Profile,
 } from 'react-native-fbsdk-next';
+import Microsoft from './Microsoft';
 import Signup from './Signup';
 import {Authcontext} from '../Authcontext'; //named if curly bracs..
 
@@ -65,7 +61,7 @@ const Login = ({navigation}) => {
           currentProfile.userID,
       );
     }
-  });
+  }); //user details
 
   return (
     <ImageBackground
@@ -180,6 +176,12 @@ const Login = ({navigation}) => {
             onLogoutFinished={() => alert('logout.')}
           />
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            Microsoft();
+          }}>
+          Sign In With Microsoft
+        </TouchableOpacity>
 
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
           <Text style={{fontWeight: 'bold', fontSize: 20}}> {status}</Text>
