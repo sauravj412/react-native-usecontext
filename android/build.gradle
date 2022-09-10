@@ -4,11 +4,11 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
     ext {
-        buildToolsVersion = "31.0.0"
+        buildToolsVersion = "30.0.3"
         minSdkVersion = 21
-        compileSdkVersion = 31
+        compileSdkVersion = 30
         facebookSdkVersion = "13.1.0"
-        targetSdkVersion = 31
+        targetSdkVersion = 30
         googlePlayServicesAuthVersion = "17.0.0"
 
         if (System.properties['os.arch'] == "aarch64") {
