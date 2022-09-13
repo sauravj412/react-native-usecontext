@@ -1,10 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {
-  Alert,
-  ImageBackground,
-  SafeAreaView,
-  TouchableOpacity,
-} from 'react-native';
+import {ImageBackground, SafeAreaView, TouchableOpacity} from 'react-native';
 import {View, Text, StyleSheet, ScrollView, TextInput} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
@@ -13,17 +8,10 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {
-  LoginButton,
-  AccessToken,
-  GraphRequest,
-  GraphRequestManager,
-  Profile,
-} from 'react-native-fbsdk-next';
-import Signup from './Signup';
-import {Authcontext} from '../Authcontext'; //named if curly bracs..
 
-const Login = ({navigation}) => {
+import {Authcontext} from '../Authcontext';
+
+const Googlelogin = ({navigation}) => {
   const {login} = useContext(Authcontext);
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
@@ -54,25 +42,16 @@ const Login = ({navigation}) => {
       }
     }
   };
-  const currentProfile = Profile.getCurrentProfile().then(function (
-    currentProfile,
-  ) {
-    if (currentProfile) {
-      console.log(
-        'The current logged user is: ' +
-          currentProfile.name +
-          '. His profile id is: ' +
-          currentProfile.userID,
-      );
-    }
-  });
 
   return (
-    <ImageBackground
-      style={styles.ImageBackground}
-      resizeMode="cover"
-      source={require('../Zimages/backgroungimg.png')}>
-      <View style={styles.top}>
+    <LinearGradient
+      colors={['#0093E9', '#C850C0', '#80D0C7']}
+      style={{
+        flex: 1,
+        borderRadius: 8,
+        height: '60%',
+      }}>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <Text style={styles.text}>Login To Your Account</Text>
       </View>
 
@@ -83,6 +62,7 @@ const Login = ({navigation}) => {
             keyboardType="email-address"
             placeholder="Enter Your Username"
             style={styles.input}
+            placeholderTextColor="white"
             defaultValue={user}
             onChangeText={x => {
               setUser(x);
@@ -93,6 +73,7 @@ const Login = ({navigation}) => {
             id="pass"
             keyboardType="default"
             placeholder="Enter Your Password"
+            placeholderTextColor="white"
             style={styles.input}
             defaultValue={pass}
             secureTextEntry={true}
@@ -112,23 +93,10 @@ const Login = ({navigation}) => {
           <LinearGradient
             colors={['#A906FE', '#695AED', '#30AAEE']}
             style={styles.gradient}>
-            <Text>Submit</Text>
+            <Text style={{color: 'white'}}>Submit</Text>
           </LinearGradient>
         </TouchableOpacity>
 
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Text
-            style={{
-              fontSize: 16,
-              fontWeight: 'bold',
-              color: 'white',
-              marginVertical: 16,
-            }}>
-            Or Sign In Using ...
-          </Text>
-        </View>
-
-        {/* Sign in with google */}
         <View style={styles.googlebtn}>
           <GoogleSigninButton
             style={styles.GoogleSigninButton}
@@ -138,68 +106,37 @@ const Login = ({navigation}) => {
               signIn();
             }}
           />
-          <LoginButton
-            onLoginFinished={(error, result) => {
-              if (error) {
-                alert('login has error: ' + result.error);
-              } else if (result.isCancelled) {
-                alert('login is cancelled.');
-              } else {
-                AccessToken.getCurrentAccessToken().then(data => {
-                  let accessToken = data.accessToken;
-                  alert(accessToken.toString());
-
-                  const responseInfoCallback = (error, result) => {
-                    if (error) {
-                      console.log(error);
-                      alert('Error fetching data: ' + error.toString());
-                    } else {
-                      console.log(result);
-                      alert('Success fetching data: ' + result.toString());
-                    }
-                  };
-
-                  const infoRequest = new GraphRequest(
-                    '/me',
-                    {
-                      accessToken: accessToken,
-                      parameters: {
-                        fields: {
-                          string: 'email,name,first_name,middle_name,last_name',
-                        },
-                      },
-                    },
-                    responseInfoCallback,
-                  );
-
-                  // Start the graph request.`
-                  new GraphRequestManager().addRequest(infoRequest).start();
-                });
-              }
-            }}
-            onLogoutFinished={() => alert('logout.')}
-          />
         </View>
 
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{fontWeight: 'bold', fontSize: 20}}> {status}</Text>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 16,
+              color: 'white',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {status}
+          </Text>
         </View>
-        <Text>New User?</Text>
+
         <TouchableOpacity
+          style={{justifyContent: 'center', alignItems: 'center'}}
           onPress={() => {
             Navigation.navigate('Signup');
           }}>
-          <Text style={styles.text1}>Create A New Account</Text>
+          <Text style={styles.text1}>New User ? Create A New Account</Text>
         </TouchableOpacity>
         <View style={styles.out}>
           <Text style={styles.result}>{out}</Text>
         </View>
       </ScrollView>
-    </ImageBackground>
+    </LinearGradient>
   );
 };
 
-export default Login;
+export default Googlelogin;
 
 const styles = StyleSheet.create({
   conatiner: {
@@ -247,8 +184,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Medium',
     fontStyle: 'normal',
     fontSize: 20,
-    marginLeft: 50,
     fontWeight: 'bold',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   result: {
     flex: 1,
@@ -282,7 +220,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: 'Montserrat',
     fontStyle: 'normal',
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: 'bold',
     color: 'white',
   },
@@ -297,11 +235,12 @@ const styles = StyleSheet.create({
   text1: {
     fontFamily: 'Montserrat',
     fontStyle: 'normal',
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'blue',
   },
   googlebtn: {
+    marginVertical: 15,
     justifyContent: 'center',
     alignItems: 'center',
   },

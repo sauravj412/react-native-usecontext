@@ -11,38 +11,43 @@ import {
   Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import Login from './Login';
 import LinearGradient from 'react-native-linear-gradient';
 
-function Signup() {
+const Signup = () => {
   const [first, setFirst] = useState('');
   const [second, setSecond] = useState('');
   const [pass, setPass] = useState('');
   const [gmail, setGmail] = useState('');
   const [cpass, setCpass] = useState('');
-  const navigation = useNavigation();
+  const Navigation = useNavigation();
   return (
-    <ImageBackground
-      style={styles.ImageBackground}
-      resizeMode="cover"
-      source={require('../Zimages/signupimage.png')}>
+    <LinearGradient
+      colors={['#4158D0', '#C850C0', '#FFCC70']}
+      start={{x: 1, y: 0}}
+      end={{x: 0, y: 1}}
+      locations={[0.2, 0.6, 1.2]}
+      style={{
+        flex: 1,
+        borderRadius: 8,
+        height: '60%',
+      }}>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={styles.text}>Login To Your Account</Text>
+      </View>
       <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.top}>
-          <Text style={styles.header}>Create a New Account</Text>
-        </View>
-
-        <LinearGradient
-          colors={['#662D8C', '#ED1E79']}
-          start={{x: 0, y: 1}}
-          end={{x: 1, y: 0}}
-          locations={[0.75, 0.25]}
-          style={styles.gradient1}>
-          <View style={styles.box}>
+        <View style={styles.box}>
+          <LinearGradient
+            colors={['#fbc2eb', '#a6c1ee', '#C850C0']}
+            start={{x: 1, y: 0}}
+            end={{x: 0, y: 1}}
+            locations={[0.2, 0.6]}
+            style={styles.box}>
             <TextInput
               keyboardType="email-address"
               placeholder="Enter Your First Name"
               style={styles.input}
               defaultValue={first}
+              placeholderTextColor="white"
               onChangeText={x => {
                 setFirst(x);
               }}
@@ -52,6 +57,7 @@ function Signup() {
               placeholder="Enter Your Second Name"
               style={styles.input}
               defaultValue={second}
+              placeholderTextColor="white"
               onChangeText={x => {
                 setSecond(x);
               }}
@@ -59,6 +65,7 @@ function Signup() {
             <TextInput
               keyboardType="email-address"
               placeholder="Enter Your Email ID"
+              placeholderTextColor="white"
               style={styles.input}
               defaultValue={gmail}
               onChangeText={x => {
@@ -68,6 +75,7 @@ function Signup() {
             <TextInput
               keyboardType="email-address"
               placeholder="Enter Your Password"
+              placeholderTextColor="white"
               style={styles.input}
               defaultValue={pass}
               onChangeText={x => {
@@ -78,14 +86,16 @@ function Signup() {
             <TextInput
               keyboardType="email-address"
               placeholder="Confirm Password"
+              placeholderTextColor="white"
               style={styles.input}
               defaultValue={cpass}
               onChangeText={x => {
                 setCpass(x);
               }}
             />
-          </View>
-        </LinearGradient>
+          </LinearGradient>
+        </View>
+
         <TouchableOpacity
           style={styles.btn}
           onPress={() => {
@@ -95,24 +105,23 @@ function Signup() {
             colors={['#C33764', '#1D2671']}
             start={{x: 1.2, y: 1}}
             style={styles.gradient}>
-            <Text>Submit</Text>
+            <Text style={{color: 'white'}}>Submit</Text>
           </LinearGradient>
 
           <Text>Already Signed?</Text>
         </TouchableOpacity>
         <View style={styles.last}>
           <TouchableOpacity
-            // style={styles.text}
             onPress={() => {
-              navigation.navigate('Login');
+              Navigation.navigate('Googlelogin');
             }}>
             <Text style={styles.text2}>Login To Your Account</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </ImageBackground>
+    </LinearGradient>
   );
-}
+};
 
 export default Signup;
 const styles = StyleSheet.create({
@@ -186,7 +195,8 @@ const styles = StyleSheet.create({
   header: {
     fontFamily: 'Montserrat',
     fontStyle: 'normal',
-    fontSize: 30,
+    fontSize: 20,
+    backgroundColor: 'blue',
     fontWeight: 'bold',
     color: 'white',
   },

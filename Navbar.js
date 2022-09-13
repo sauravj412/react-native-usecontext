@@ -1,10 +1,10 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Home from './screens/Home';
-import Fetch from './screens/Api';
-import Newpage from './screens/Newpage';
-import User from './screens/User';
+import Home from '../Native-Project2/AppScreen/Home';
+import Fetch from '../Native-Project2/AppScreen/Api';
+import Newpage from '../Native-Project2/AppScreen/Newpage';
+import User from '../Native-Project2/AppScreen/User';
 const Tab = createBottomTabNavigator();
 
 export default function Navbar() {

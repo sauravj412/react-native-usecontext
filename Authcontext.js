@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {createContext, useState, useEffect} from 'react';
-//named same name
-export const Authcontext = createContext(); //named
+
+export const Authcontext = createContext();
 
 export const AuthProvider = ({children}) => {
   const [isLoading, setIsLoding] = useState(false);
@@ -26,6 +26,7 @@ export const AuthProvider = ({children}) => {
     }
   };
   useEffect(() => {
+    let isMounted = true;
     isLoggedin();
   }, []);
   return (
