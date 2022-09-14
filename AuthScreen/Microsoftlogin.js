@@ -6,12 +6,10 @@ import {
   Text,
   View,
   FlatList,
-  TouchableOpacity,
 } from 'react-native';
 
 import AzureAuth from 'react-native-azure-auth';
 import Client from 'react-native-azure-auth/src/networking';
-import LinearGradient from 'react-native-linear-gradient';
 
 const CLIENT_ID = 'f0bcbcbd-7e8d-4626-85ae-b64f59eba66e';
 

@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {ImageBackground, SafeAreaView, TouchableOpacity} from 'react-native';
 import {View, Text, StyleSheet, ScrollView, TextInput} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,30 +16,48 @@ const Googlelogin = ({navigation}) => {
   const [user, setUser] = useState('');
   const [pass, setPass] = useState('');
   const [out, setOut] = useState('');
-  const [state, setState] = useState('');
   const [status, setStatus] = useState('');
+  const [loggedIn, setloggedIn] = useState(false);
+  const [userInfo, setuserInfo] = useState([]);
   const Navigation = useNavigation();
-  GoogleSignin.configure({
-    webClientId:
-      '1020658986757-ann6gnfulfuu85te7ckbrjh1r0qntkot.apps.googleusercontent.com',
-    offlineAccess: true,
-  });
 
-  const signIn = async () => {
+  useEffect(() => {
+    GoogleSignin.configure({
+      scopes: ['email', 'profile'],
+      webClientId:
+        '1020658986757-ann6gnfulfuu85te7ckbrjh1r0qntkot.apps.googleusercontent.com',
+      androidClientId:
+        '1020658986757-8vqctfft84hkde20ukol9163mc756ie0.apps.googleusercontent.com',
+      offlineAccess: true,
+    });
+  }, []);
+
+  const signin = async () => {
     try {
       await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      setState({userInfo});
+      const {accessToken, idToken} = await GoogleSignin.signIn();
+      setloggedIn(true);
+      setuserInfo({userInfo});
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        setStatus('Sign in Cancelled');
+        setStatus('Sign In Cancel');
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        setStatus('Loading..');
+        setStatus('Signin in progress');
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        setStatus('Google Play Services are not Installed on Your Device');
+        setStatus('PLAY_SERVICES_NOT_AVAILABLE');
       } else {
-        setStatus('Some Error Ocurred!');
+        setStatus('some  error happened');
       }
+    }
+  };
+  const signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      setloggedIn(false);
+      setuserInfo([]);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -103,7 +121,7 @@ const Googlelogin = ({navigation}) => {
             size={GoogleSigninButton.Size.Wide}
             color={GoogleSigninButton.Color.Dark}
             onPress={() => {
-              signIn();
+              signin();
             }}
           />
         </View>
@@ -119,7 +137,29 @@ const Googlelogin = ({navigation}) => {
             }}>
             {status}
           </Text>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Text>The User Signed in is :</Text>
+            <Text>{userInfo}</Text>
+          </View>
         </View>
+        <TouchableOpacity
+          style={{justifyContent: 'center', alignItems: 'center'}}
+          onPress={() => {
+            signOut();
+          }}>
+          <Text
+            style={{
+              borderColor: 'white',
+              borderRadius: 6,
+              borderWidth: 1,
+              color: 'white',
+              width: '20%',
+              padding: 6,
+              backgroundColor: 'black',
+            }}>
+            Log Out
+          </Text>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={{justifyContent: 'center', alignItems: 'center'}}
