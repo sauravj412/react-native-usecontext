@@ -62,16 +62,15 @@ export default function Facebooklogin() {
           }}
           onLogoutFinished={() => alert('logout.')}
         />
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Text>New User??</Text>
 
-          <TouchableOpacity
-            onPress={() => {
-              Navigation.navigate('Signup');
-            }}>
-            <Text>Create A New Account</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          onPress={() => {
+            Navigation.navigate('Signup');
+          }}>
+          <Text style={{marginTop: 10, fontSize: 15}}>
+            New User ? Create A New Account
+          </Text>
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
